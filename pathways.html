@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RhinitisAtlas</title><link rel="stylesheet" href="style.css"></head><body>
+<header><div class="brand">RhinitisAtlas<small data-i18n="tagline"></small></div>
+<nav><a href="index.html" data-i18n="nav_overview" class=""></a><a href="datasets.html" data-i18n="nav_datasets" class=""></a><a href="gene.html" data-i18n="nav_gene" class=""></a><a href="scrna.html" data-i18n="nav_sc" class=""></a><a href="treatments.html" data-i18n="nav_treat" class=""></a><a href="spatial.html" data-i18n="nav_spatial" class=""></a><a href="pathways.html" data-i18n="nav_path" class="on"></a><a href="methods.html" data-i18n="nav_methods" class=""></a><a href="downloads.html" data-i18n="nav_dl" class=""></a></nav><div class="lang"><button data-l="en" onclick="setLang('en')">EN</button><button data-l="zh" onclick="setLang('zh')">中文</button></div></header><main>
+<h1 id="t"></h1><p id="intro"></p>
+<h2 id="h_prog"></h2><p class="mut" id="prog_note"></p><div style="overflow-x:auto"><table id="prog"></table></div>
+<h2 id="h_hall"></h2><p class="mut" id="hall_note"></p><div style="overflow-x:auto"><table id="hall"></table></div>
+<h2 id="h_meta"></h2><p class="mut" id="meta_note"></p><div style="overflow-x:auto"><table id="metat"></table></div>
+<h2 id="h_gwas"></h2><p class="mut" id="gwas_note"></p><div style="overflow-x:auto"><table id="gwast"></table></div>
+<h2 id="h_wgcna"></h2><div id="wgcna"></div>
+<h2 id="h_xd"></h2><div id="xd"></div>
+</main><footer><span data-i18n="foot"></span></footer>
+<script src="app.js"></script><script>
+const L={
+ t:{en:"Pathways & programs (Step-8 expansion)",zh:"通路与程序（Step-8 扩展）"},
+ intro:{en:"Cross-cohort integrative layer: pathway enrichment consensus, program activity by tissue, nasal meta-analysis, GWAS support and AR–CRSwNP comparison. Every number below comes from analysis/step8_expansion/ result files; methods in 2.8.",zh:"跨队列整合层：通路富集共识、按组织的程序活性、鼻 meta 分析、GWAS 支持与 AR–CRSwNP 比较。以下每个数字均来自 analysis/step8_expansion/ 结果文件；方法见 2.8。"},
+ h_prog:{en:"Program activity by tissue",zh:"按组织的程序活性"},
+ prog_note:{en:"Contrast-level mean logFC over program genes (positive = program up in AR), permutation p, BH per program. Deconv rows are estimates, not cell fractions.",zh:"对比级程序基因平均 logFC（正值 = AR 中程序上调），置换 P、按程序 BH。解卷积行为估计值而非细胞比例。"},
+ h_hall:{en:"Hallmark pathway consensus (GSEA)",zh:"Hallmark 通路共识（GSEA）"},
+ hall_note:{en:"Terms significant (FDR<0.05) in the most contrasts. Direction splits show these pathways are perturbed but not uniformly up/down across cohorts.",zh:"在最多对比中显著（FDR<0.05）的条目。方向拆分显示这些通路被扰动，但在队列间并非一致上/下调。"},
+ h_meta:{en:"Nasal random-effects meta-analysis — top genes",zh:"鼻随机效应 meta 分析—— top 基因"},
+ meta_note:{en:"12 nasal contrasts, DerSimonian–Laird. IL33 pools at −0.03 (P=0.69, I²=9.7): a consistent null, not cancelling signals.",zh:"12 个鼻对比，DerSimonian–Laird。IL33 合并 −0.03（P=0.69，I²=9.7）：一致的零结果，而非信号抵消。"},
+ h_gwas:{en:"GWAS support (GWAS Catalog v2, mapped genes)",zh:"GWAS 支持（GWAS Catalog v2，mapped 基因）"},
+ gwas_note:{en:"AR: 357 associations / 273 genes; asthma: 3,236 / 1,306. CST1, POSTN, CLC, CCL26 have no GWAS support — transcript strength dissociates from genetic support.",zh:"AR：357 个关联 / 273 个基因；哮喘：3,236 / 1,306。CST1、POSTN、CLC、CCL26 无 GWAS 支持——转录强度与遗传支持分离。"},
+ h_wgcna:{en:"WGCNA (GSE167225 sputum, n=26)",zh:"WGCNA（GSE167225 痰，n=26）"},
+ h_xd:{en:"AR vs CRSwNP",zh:"AR 对 CRSwNP"}};
+function T(k){return L[k][LANG]||L[k].en}
+function fdrFmt2(f){ if(f==null) return "—"; if(f<0.001) return f.toExponential(1); return f.toFixed(3); }
+async function render(){
+ ["t","intro","h_prog","prog_note","h_hall","hall_note","h_meta","meta_note","h_gwas","gwas_note","h_wgcna","h_xd"].forEach(id=>document.getElementById(id).textContent=T(id));
+ const E = await loadJSON("data/expansion.json");
+ const pt = E.programs_tissue.filter(r=>["nasal","blood"].includes(r.tissue_simple));
+ const progs=[...new Set(pt.map(r=>r.program))];
+ document.getElementById("prog").innerHTML = "<tr><th>Program</th><th>Nasal median</th><th>Nasal FDR+ / FDR−</th><th>Blood median</th><th>Blood FDR+ / FDR−</th></tr>"+
+  progs.map(p=>{ const n=pt.find(r=>r.program===p&&r.tissue_simple==="nasal"), b=pt.find(r=>r.program===p&&r.tissue_simple==="blood");
+   return `<tr><td>${p}</td><td>${n?n.median_activity:"—"}</td><td>${n?n.n_FDR05_pos+" / "+n.n_FDR05_neg:"—"}</td><td>${b?b.median_activity:"—"}</td><td>${b?b.n_FDR05_pos+" / "+b.n_FDR05_neg:"—"}</td></tr>`; }).join("");
+ document.getElementById("hall").innerHTML = "<tr><th>Hallmark term</th><th># contrasts</th><th>Up / Down</th><th>Median |NES|</th></tr>"+
+  E.hallmark_top.map(r=>`<tr><td>${r.term}</td><td>${r.n}</td><td>${r.n_up} / ${r.n_dn}</td><td>${r.median_NES}</td></tr>`).join("");
+ document.getElementById("metat").innerHTML = "<tr><th>Gene</th><th>k</th><th>Pooled logFC</th><th>I²</th><th>FDR</th></tr>"+
+  E.meta_nasal_top.map(r=>`<tr><td><a href="gene.html?g=${r.gene}">${r.gene}</a></td><td>${r.k}</td><td>${r.pooled_logFC>0?"+":""}${r.pooled_logFC}</td><td>${r.I2}</td><td>${fdrFmt2(r.FDR)}</td></tr>`).join("");
+ document.getElementById("gwast").innerHTML = "<tr><th>Gene</th><th>AR GWAS</th><th>Asthma GWAS</th></tr>"+
+  E.gwas_panel.map(r=>`<tr><td><a href="gene.html?g=${r.gene}">${r.gene}</a></td><td>${r.allergic_rhinitis_gwas_hit?"✓":""}</td><td>${r.asthma_gwas_hit?"✓":""}</td></tr>`).join("");
+ document.getElementById("wgcna").innerHTML = "<table><tr><th>Module</th><th>Size</th><th>Cor w/ AR</th><th>p</th><th>FDR</th></tr>"+
+  E.wgcna.modules.map(r=>`<tr><td>${r.module}</td><td>${r.size}</td><td>${r.cor_trait}</td><td>${r.p_trait.toExponential(1)}</td><td>${fdrFmt2(r.FDR)}</td></tr>`).join("")+
+  `</table><p class="mut">${E.wgcna.note}</p>`;
+ const x=E.crossdisease;
+ document.getElementById("xd").innerHTML = `<p>Spearman ρ of mean logFC (AR vs CRS) over ${x.common_genes.toLocaleString()} genes: <b>${x.spearman_rho}</b>. Consensus overlap at chance — up: ${x.up_overlap}/${x.ar_up} vs ${x.crs_up} (p=${x.up_overlap_p}); down: ${x.dn_overlap}/${x.ar_dn} vs ${x.crs_dn} (p=${x.dn_overlap_p}). Panel genes move concordantly in both diseases.</p>`;
+}
+window.onLang=render; render();
+</script></body></html>
