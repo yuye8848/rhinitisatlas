@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RhinitisAtlas</title><link rel="stylesheet" href="style.css"></head><body>
+<header><div class="brand">RhinitisAtlas<small data-i18n="tagline"></small></div>
+<nav><a href="index.html" data-i18n="nav_overview" class=""></a><a href="datasets.html" data-i18n="nav_datasets" class=""></a><a href="gene.html" data-i18n="nav_gene" class=""></a><a href="scrna.html" data-i18n="nav_sc" class="on"></a><a href="treatments.html" data-i18n="nav_treat" class=""></a><a href="spatial.html" data-i18n="nav_spatial" class=""></a><a href="methods.html" data-i18n="nav_methods" class=""></a><a href="downloads.html" data-i18n="nav_dl" class=""></a></nav><div class="lang"><button data-l="en" onclick="setLang('en')">EN</button><button data-l="zh" onclick="setLang('zh')">中文</button></div></header><main>
+<h1 id="t"></h1><p class="mut" id="sub"></p>
+<div id="tabs" style="display:flex;gap:6px;flex-wrap:wrap;margin:10px 0"></div>
+<div id="meta"></div>
+<canvas id="umap" width="860" height="560"></canvas>
+<div class="legend" id="legend"></div>
+<h2 id="h_comp"></h2><div style="overflow-x:auto"><table id="comp"></table></div>
+</main><footer><span data-i18n="foot"></span></footer>
+<script src="app.js"></script><script>
+const L={t:{en:"Single-cell layer",zh:"单细胞层"},
+ sub:{en:"Six core datasets, one shared marker vocabulary, positive-control assertions passed before any output (housekeeping + lineage controls per dataset; values in each dataset's QC report in the archive). UMAPs show up to 20,000 sampled cells, coloured by unified cell type.",zh:"6 个核心数据集，共用一套标志物词表；每个集出结果前先过阳性对照断言（管家基因 + 谱系对照，数值见归档中各集 QC 报告）。UMAP 显示最多 20,000 个抽样细胞，按统一细胞类型着色。"},
+ h_comp:{en:"Composition (cells per donor unit × cell type)",zh:"组成（供体单元 × 细胞类型细胞数）"},
+ cells:{en:"cells after QC",zh:"QC 后细胞"}};
+function T(k){return L[k][LANG]||L[k].en}
+let CUR="GSE261706", SUM=null, COMP=null;
+async function init(){
+ document.getElementById("t").textContent=T("t"); document.getElementById("sub").textContent=T("sub"); document.getElementById("h_comp").textContent=T("h_comp");
+ SUM = await loadJSON("data/summary.json"); COMP = await loadJSON("data/composition.json");
+ document.getElementById("tabs").innerHTML = Object.keys(SUM.sc_datasets).map(g=>`<button class="go" style="background:${g===CUR?"#0e6e6e":"#7d93a8"}" onclick="pick('${g}')">${g}</button>`).join("");
+ draw();
+}
+async function pick(g){ CUR=g; init(); }
+async function draw(){
+ const d = await loadJSON("data/"+CUR+"_umap.json");
+ const info = SUM.sc_datasets[CUR];
+ document.getElementById("meta").innerHTML = `<p><b>${CUR}</b> — ${info.cells.toLocaleString()} ${T("cells")} · ${info.types.length} cell types: ${info.types.map(x=>`<span class="chip">${x}</span>`).join("")}</p>`;
+ const cv=document.getElementById("umap"), ctx=cv.getContext("2d"); ctx.clearRect(0,0,cv.width,cv.height);
+ const xs=d.points.map(p=>p[0]), ys=d.points.map(p=>p[1]);
+ const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
+ d.points.forEach(p=>{ const x=(p[0]-x0)/(x1-x0)*820+20, y=540-((p[1]-y0)/(y1-y0)*520+20);
+   ctx.fillStyle=ctColor(p[2]); ctx.fillRect(x,y,2.2,2.2); });
+ const types=[...new Set(d.points.map(p=>p[2]))].sort();
+ document.getElementById("legend").innerHTML = types.map(ct=>`<span><span class="dot" style="background:${ctColor(ct)}"></span>${ct}</span>`).join("");
+ const rows = COMP[CUR]||[]; const cts=[...new Set(rows.map(r=>r.celltype))].sort();
+ const donors=[...new Set(rows.map(r=>r.donor||r.gsm))];
+ document.getElementById("comp").innerHTML = "<tr><th>donor</th>"+cts.map(c=>`<th>${c}</th>`).join("")+"</tr>"+
+  donors.map(dn=>{ const m={}; rows.filter(r=>(r.donor||r.gsm)===dn).forEach(r=>m[r.celltype]=r.n_cells);
+   return `<tr><td>${dn}</td>`+cts.map(c=>`<td>${m[c]||0}</td>`).join("")+"</tr>"; }).join("");
+}
+window.onLang=init; init();
+</script></body></html>

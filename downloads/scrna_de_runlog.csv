@@ -1,0 +1,101 @@
+dataset,contrast,status,method,n_units,n_genes,fdr05_up,fdr05_down,descriptive
+GSE261706,B_cell,SKIP: too few units,edgeR,,,,,
+GSE261706,CD4_T: AR vs Control,ok,edgeR,4,3933,0,0,TRUE
+GSE261706,Cycling: AR vs Control,ok,edgeR,4,7731,0,0,TRUE
+GSE261706,Epi_basal: AR vs Control,ok,edgeR,4,19223,0,0,TRUE
+GSE261706,Epi_ciliated: AR vs Control,ok,edgeR,4,11624,254,23,TRUE
+GSE261706,Epi_goblet: AR vs Control,ok,edgeR,4,12670,1,0,TRUE
+GSE261706,Epi_ionocyte: AR vs Control,ok,edgeR,4,8386,103,13,TRUE
+GSE261706,Epi_secretory: AR vs Control,ok,edgeR,4,14917,0,0,TRUE
+GSE261706,Epi_tuft: AR vs Control,ok,edgeR,4,1317,0,0,TRUE
+GSE261706,Erythroid,SKIP: too few units,edgeR,,,,,
+GSE261706,Fibroblast: AR vs Control,ok,edgeR,4,16169,1,1,TRUE
+GSE261706,ILC,SKIP: too few units,edgeR,,,,,
+GSE261706,Mast_basophil: AR vs Control,ok,edgeR,4,2721,0,0,TRUE
+GSE261706,Mono_classical: AR vs Control,ok,edgeR,4,11549,55,2,TRUE
+GSE261706,NK: AR vs Control,ok,edgeR,4,7861,29,14,TRUE
+GSE261706,Plasma: AR vs Control,ok,edgeR,4,7149,0,1,TRUE
+GSE261706,SMC_pericyte: AR vs Control,ok,edgeR,4,12903,3,0,TRUE
+GSE261706,Th2,SKIP: too few units,edgeR,,,,,
+GSE261706,Treg,SKIP: too few units,edgeR,,,,,
+GSE261706,cDC: AR vs Control,ok,edgeR,4,7415,1,0,TRUE
+GSE261706,CD8_T,SKIP: too few units,edgeR,,,,,
+GSE261706,Endothelial,SKIP: too few units,edgeR,,,,,
+GSE261706,pDC,SKIP: too few units,edgeR,,,,,
+GSE200107,B_cell: post vs pre SLIT,ok,edgeR,14,4851,2,0,FALSE
+GSE200107,CD4_T: post vs pre SLIT,ok,edgeR,14,14482,0,0,FALSE
+GSE200107,CD8_T: post vs pre SLIT,ok,edgeR,14,7212,0,0,FALSE
+GSE200107,ILC: post vs pre SLIT,ok,edgeR,12,2936,1,0,FALSE
+GSE200107,Mono_classical: post vs pre SLIT,ok,edgeR,10,1946,0,0,FALSE
+GSE200107,Mono_nonclassical: post vs pre SLIT,ok,edgeR,8,1662,0,0,FALSE
+GSE200107,NK: post vs pre SLIT,ok,edgeR,10,2147,0,0,FALSE
+GSE200107,Th2: post vs pre SLIT,ok,edgeR,8,2768,0,0,FALSE
+GSE200107,Treg: post vs pre SLIT,ok,edgeR,14,8311,4,1,FALSE
+GSE200107,Plasma: post vs pre SLIT,ok,edgeR,4,694,0,0,TRUE
+GSE200107,cDC,SKIP: too few units,edgeR,,,,,
+GSE200107,pDC,SKIP: too few units,edgeR,,,,,
+GSE273975,B_cell: post vs pre treatment,ok,edgeR,4,8428,243,173,TRUE
+GSE273975,CD4_T: post vs pre treatment,ok,edgeR,4,12133,695,626,TRUE
+GSE273975,CD8_T: post vs pre treatment,ok,edgeR,4,9905,327,367,TRUE
+GSE273975,Erythroid: post vs pre treatment,ok,edgeR,4,2401,1,5,TRUE
+GSE273975,ILC: post vs pre treatment,ok,edgeR,4,6165,0,0,TRUE
+GSE273975,Mast_basophil: post vs pre treatment,ok,edgeR,4,1656,0,0,TRUE
+GSE273975,Mono_classical: post vs pre treatment,ok,edgeR,4,13583,794,864,TRUE
+GSE273975,Mono_nonclassical: post vs pre treatment,ok,edgeR,4,7933,53,50,TRUE
+GSE273975,NK: post vs pre treatment,ok,edgeR,4,12185,809,1017,TRUE
+GSE273975,Plasma: post vs pre treatment,ok,edgeR,4,4104,4,0,TRUE
+GSE273975,Platelet: post vs pre treatment,ok,edgeR,4,2769,1,7,TRUE
+GSE273975,Th2: post vs pre treatment,ok,edgeR,4,3602,15,18,TRUE
+GSE273975,Treg: post vs pre treatment,ok,edgeR,4,4954,4,2,TRUE
+GSE273975,cDC: post vs pre treatment,ok,edgeR,4,4519,0,0,TRUE
+GSE273975,pDC: post vs pre treatment,ok,edgeR,4,2604,0,0,TRUE
+GSE180697,B_cell: SAR vs HC baseline 0h,ok,edgeR,4,10092,928,204,TRUE
+GSE180697,CD4_T: SAR vs HC baseline 0h,ok,edgeR,6,13956,1191,763,FALSE
+GSE180697,Erythroid,SKIP: too few units,edgeR,,,,,
+GSE180697,Mono_classical: SAR vs HC baseline 0h,ok,edgeR,6,14618,1303,927,FALSE
+GSE180697,NK,SKIP: too few units,edgeR,,,,,
+GSE180697,pDC,SKIP: too few units,edgeR,,,,,
+GSE180697,Mono_classical: Allergen vs Diluent @12h (SAR),ok,edgeR,6,9430,0,0,FALSE
+GSE180697,CD4_T: Allergen vs Diluent @12h (SAR),ok,edgeR,4,5631,0,1,TRUE
+GSE180697,Mono_classical: Allergen vs Diluent @D1 (SAR),ok,edgeR,6,8238,2,0,FALSE
+GSE180697,CD4_T: Allergen vs Diluent @D1 (SAR),ok,edgeR,6,9815,1,0,FALSE
+GSE180697,Mono_classical: Allergen vs Diluent @D2 (SAR),ok,edgeR,6,9571,407,610,FALSE
+GSE180697,CD4_T: Allergen vs Diluent @D2 (SAR),ok,edgeR,6,10885,0,0,FALSE
+GSE180697,NK: Allergen vs Diluent @D2 (SAR),ok,edgeR,4,4477,0,0,TRUE
+GSE180697,Mono_classical: Allergen vs Diluent @D3 (SAR),ok,edgeR,4,8926,18,43,TRUE
+GSE180697,CD4_T: Allergen vs Diluent @D3 (SAR),ok,edgeR,6,8286,0,0,FALSE
+GSE180697,Mono_classical: Allergen vs Diluent @D5 (SAR),ok,edgeR,6,13431,2,0,FALSE
+GSE180697,CD4_T: Allergen vs Diluent @D5 (SAR),ok,edgeR,6,8544,108,237,FALSE
+GSE180697,NK: Allergen vs Diluent @D5 (SAR),ok,edgeR,6,5949,0,0,FALSE
+GSE180697,B_cell: Allergen vs Diluent @D5 (SAR),ok,edgeR,6,14714,3,84,FALSE
+GSE180697,Mono_classical: Allergen vs Diluent @D7 (SAR),ok,edgeR,6,12951,0,0,FALSE
+GSE180697,CD4_T: Allergen vs Diluent @D7 (SAR),ok,edgeR,6,9057,0,0,FALSE
+GSE180697,NK: Allergen vs Diluent @D7 (SAR),ok,edgeR,6,5506,0,0,FALSE
+GSE180697,B_cell: Allergen vs Diluent @D7 (SAR),ok,edgeR,6,14890,3,1,FALSE
+GSE163367,"B_cell: SAR vs NAC (2v1 donors, descriptive)",ok,limma_normalizedPB,3,14568,0,0,TRUE
+GSE163367,"CD4_T: SAR vs NAC (2v1 donors, descriptive)",ok,limma_normalizedPB,3,19503,0,0,TRUE
+GSE163367,"CD8_T: SAR vs NAC (2v1 donors, descriptive)",ok,limma_normalizedPB,3,16107,0,0,TRUE
+GSE163367,"ILC: SAR vs NAC (2v1 donors, descriptive)",ok,limma_normalizedPB,3,15537,0,0,TRUE
+GSE163367,Mast_basophil,SKIP: too few units,limma_normalizedPB,,,,,
+GSE163367,"Mono_classical: SAR vs NAC (2v1 donors, descriptive)",ok,limma_normalizedPB,3,16471,0,0,TRUE
+GSE163367,"Mono_nonclassical: SAR vs NAC (2v1 donors, descriptive)",ok,limma_normalizedPB,3,14250,0,0,TRUE
+GSE163367,"NK: SAR vs NAC (2v1 donors, descriptive)",ok,limma_normalizedPB,3,17931,0,0,TRUE
+GSE163367,"Plasma: SAR vs NAC (2v1 donors, descriptive)",ok,limma_normalizedPB,3,19005,0,0,TRUE
+GSE163367,"Platelet: SAR vs NAC (2v1 donors, descriptive)",ok,limma_normalizedPB,3,10979,89,2817,TRUE
+GSE163367,"Th2: SAR vs NAC (2v1 donors, descriptive)",ok,limma_normalizedPB,3,13846,0,0,TRUE
+GSE163367,"Treg: SAR vs NAC (2v1 donors, descriptive)",ok,limma_normalizedPB,3,13198,0,0,TRUE
+GSE163367,"cDC: SAR vs NAC (2v1 donors, descriptive)",ok,limma_normalizedPB,3,12368,0,0,TRUE
+GSE163367,pDC,SKIP: too few units,limma_normalizedPB,,,,,
+GSE162933,"B_cell: GP-SLIT vs PL-SLIT @V7 (2v2 donors, descriptive)",ok,limma_normalizedPB,4,19491,0,0,TRUE
+GSE162933,"CD4_T: GP-SLIT vs PL-SLIT @V7 (2v2 donors, descriptive)",ok,limma_normalizedPB,4,18895,0,0,TRUE
+GSE162933,"CD8_T: GP-SLIT vs PL-SLIT @V7 (2v2 donors, descriptive)",ok,limma_normalizedPB,4,17994,0,0,TRUE
+GSE162933,"Erythroid: GP-SLIT vs PL-SLIT @V7 (2v2 donors, descriptive)",ok,limma_normalizedPB,4,19170,0,0,TRUE
+GSE162933,"ILC: GP-SLIT vs PL-SLIT @V7 (2v2 donors, descriptive)",ok,limma_normalizedPB,4,19736,0,0,TRUE
+GSE162933,"Mast_basophil: GP-SLIT vs PL-SLIT @V7 (2v2 donors, descriptive)",ok,limma_normalizedPB,4,20115,0,0,TRUE
+GSE162933,"Mono_nonclassical: GP-SLIT vs PL-SLIT @V7 (2v2 donors, descriptive)",ok,limma_normalizedPB,4,19166,0,0,TRUE
+GSE162933,NK,SKIP: too few units,limma_normalizedPB,,,,,
+GSE162933,"Th2: GP-SLIT vs PL-SLIT @V7 (2v2 donors, descriptive)",ok,limma_normalizedPB,4,20185,5,9,TRUE
+GSE162933,"Treg: GP-SLIT vs PL-SLIT @V7 (2v2 donors, descriptive)",ok,limma_normalizedPB,4,19612,0,0,TRUE
+GSE162933,pDC,SKIP: too few units,limma_normalizedPB,,,,,
+GSE162933,Mono_classical,SKIP: too few units,limma_normalizedPB,,,,,
+GSE162933,Plasma,SKIP: too few units,limma_normalizedPB,,,,,

@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RhinitisAtlas</title><link rel="stylesheet" href="style.css"></head><body>
+<header><div class="brand">RhinitisAtlas<small data-i18n="tagline"></small></div>
+<nav><a href="index.html" data-i18n="nav_overview" class=""></a><a href="datasets.html" data-i18n="nav_datasets" class=""></a><a href="gene.html" data-i18n="nav_gene" class=""></a><a href="scrna.html" data-i18n="nav_sc" class=""></a><a href="treatments.html" data-i18n="nav_treat" class=""></a><a href="spatial.html" data-i18n="nav_spatial" class=""></a><a href="methods.html" data-i18n="nav_methods" class="on"></a><a href="downloads.html" data-i18n="nav_dl" class=""></a></nav><div class="lang"><button data-l="en" onclick="setLang('en')">EN</button><button data-l="zh" onclick="setLang('zh')">中文</button></div></header><main>
+<h1 id="t"></h1><div id="body"></div>
+</main><footer><span data-i18n="foot"></span></footer>
+<script src="app.js"></script><script>
+const L={t:{en:"Methods & limitations",zh:"方法与局限"}};
+function T(k){return L[k][LANG]||L[k].en}
+const BODY={
+en:`<h2>Census & curation</h2><p>GEO census via NCBI E-utilities (db=gds): baseline query ("allergic rhinitis") AND "Homo sapiens"[orgn] AND "gse"[filter], plus the MeSH expansion "rhinitis, allergic" and synonym variants (seasonal/perennial allergic rhinitis, hay fever); final universe 69 series / 5,991 samples, queries archived. Every series was adjudicated at sample level (series-matrix headers): core / pending / excluded with written reasons. PMIDs were backfilled by elink (gds→pubmed); 50/69 have a linked paper — GEO records without one keep a blank PMID. The two GRASS series (GSE206149 nasal, GSE206151 PBMC) share a trial and participant IDs (GSM overlap = 0, different tissues) and are flagged same_trial so they are never counted as two independent cohorts.</p>
+<h2>Bulk reanalysis</h2><p>Per-cohort differential expression only — no cross-platform hard merging. Microarray / normalized matrices: limma (log-scale verified per cohort). Raw counts: DESeq2. Paired designs (twins, challenge, pre/post) use donor blocking; challenge-design series contribute their unstimulated/diluent baseline for the disease contrast, with challenge arms as a separate layer. Group assignments were written from GSM characteristic fields verbatim and are shipped in the archive (groups.csv). Probe→symbol mapping uses GEO platform annotation (annot files or platform tables; Entrez fallback via NCBI gene_info); per gene and contrast the minimum-P probe is kept. Outputs: 25 disease contrasts + 6 challenge/treatment contrasts; evidence matrices and consensus counts (FDR<0.05, direction-consistent) are on the Downloads page.</p>
+<h2>Single-cell</h2><p>Six core datasets processed in scanpy with one marker-panel vocabulary (15 PBMC panels; +10 nasal epithelial/stromal panels for turbinate), score_genes argmax with a CD3 gate for ILC. Positive-control assertions (housekeeping detection, PTPRC for blood, EPCAM/KRT8 for nasal tissue) had to pass before any output was written. Donor-level pseudobulk: edgeR glmQLF for true-count datasets; the two ILC datasets deposit normalized values only (verified non-integer), so they use limma on log2 pseudobulk and are labelled normalized-data in every output. Contrasts with &lt;3 donors in any arm are flagged descriptive.</p>
+<h2>Limitations</h2><ul>
+<li>GSE248256 remains pending: its healthy arm is confirmed (16 allergic / 5 non-allergic) but GSM fields do not prove "allergic" means rhinitis — one paper-level check outstanding.</li>
+<li>Five core bulk cohorts are deferred with named reasons (GSE206151 sample mapping, GSE240503 time-code table, GSE67200 dose mapping, GSE159415 CEL-only, GSE283361 author-DE-tables only).</li>
+<li>GSE46171's per-platform baseline arms held 1–2 samples; its contrast pools three visits per subject (repeated measures, caveat flagged in groups.csv) and is supportive evidence only.</li>
+<li>Nasal single-cell evidence is one dataset with 2 vs 2 donors.</li>
+<li>No spatial data exist for AR (see Spatial page).</li></ul>
+<h2>Versioning</h2><p>Fixed 69-series denominator for v1; updates will be versioned with per-version archives (Zenodo DOI) and a public correction log. Working name RhinitisAtlas; repository and site update procedures are in the project archive.</p>`,
+zh:`<h2>普查与策展</h2><p>GEO 普查经 NCBI E-utilities（db=gds）：基线检索式 ("allergic rhinitis") AND "Homo sapiens"[orgn] AND "gse"[filter]，加 MeSH 扩展 "rhinitis, allergic" 与同义词变体（季节性/常年性过敏性鼻炎、花粉症）；最终宇宙 69 个系列 / 5,991 个样本，检索式已存档。每个系列在样本级裁定（系列矩阵头）：core / pending / excluded 并附书面理由。PMID 经 elink（gds→pubmed）回填，50/69 有关联文献；无关联者 PMID 留空。两个 GRASS 系列（GSE206149 鼻、GSE206151 PBMC）同属一个试验、共享受试者编号（GSM 交集 = 0，不同组织），已打 same_trial 标记，永不算作两个独立队列。</p>
+<h2>Bulk 重分析</h2><p>只做逐队列差异表达——从不跨平台硬合并。芯片/归一化矩阵用 limma（逐队列核验量纲）；原始计数用 DESeq2。配对设计（双生子、激发、前后）以供体为区组；激发设计系列以未刺激/稀释剂基线进入疾病对比，激发臂单列为独立层。分组赋值逐字来自 GSM characteristic 字段并随归档发布（groups.csv）。探针→符号映射使用 GEO 平台注释（annot 文件或平台表；Entrez 兜底经 NCBI gene_info）；每基因每对比保留 P 值最小的探针。产出：25 个疾病对比 + 6 个激发/治疗对比；证据矩阵与共识计数（FDR<0.05、方向一致）见下载页。</p>
+<h2>单细胞</h2><p>6 个核心数据集在 scanpy 中以同一标志物面板词表处理（15 个 PBMC 面板；下鼻甲另加 10 个鼻上皮/基质面板），score_genes 取最大并对 ILC 施加 CD3 门控。阳性对照断言（管家基因检出率；血液 PTPRC；鼻组织 EPCAM/KRT8）通过后才写出任何结果。供体级 pseudobulk：真计数集用 edgeR glmQLF；两个 ILC 集只有归一化值（已实测非整数），故用 limma 于 log2 pseudobulk 并在全部产出中标注归一化口径。任一臂供体 &lt;3 的对比标注为 descriptive。</p>
+<h2>局限</h2><ul>
+<li>GSE248256 仍为 pending：健康臂已确认（过敏 16 / 非过敏 5），但 GSM 字段不能证明"过敏"即鼻炎——只剩原文一查。</li>
+<li>5 个 core bulk 队列因具名原因延后（GSE206151 样本映射、GSE240503 时间代码表、GSE67200 剂量映射、GSE159415 只有 CEL、GSE283361 只有作者 DE 表）。</li>
+<li>GSE46171 各平台基线臂仅 1–2 例，其对比池化每名受试者 3 次访视（重复测量，groups.csv 已标注 caveat），仅作支持性证据。</li>
+<li>鼻单细胞证据只有 1 个数据集、2 比 2 供体。</li>
+<li>AR 无空间数据（见空间页）。</li></ul>
+<h2>版本</h2><p>v1 固定 69 个系列为分母；更新将版本化，每版归档（Zenodo DOI）并公开纠错日志。工作名 RhinitisAtlas；仓库与网站更新流程见项目归档。</p>`};
+function render(){ document.getElementById("t").textContent=T("t"); document.getElementById("body").innerHTML = BODY[LANG]||BODY.en; }
+window.onLang=render; render();
+</script></body></html>

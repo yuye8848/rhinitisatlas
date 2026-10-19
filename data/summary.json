@@ -1,0 +1,291 @@
+{
+ "universe_series": 69,
+ "universe_samples": 5991,
+ "core_series": 39,
+ "core_samples": 2588,
+ "pending_series": 1,
+ "excluded_series": 29,
+ "bulk_contrasts_main": 25,
+ "bulk_contrasts_secondary": 6,
+ "matrix_genes_ge5": 24198,
+ "consensus_up_ge3": 852,
+ "consensus_down_ge3": 414,
+ "consensus_up_list": [
+  "RUNX1",
+  "CUEDC1",
+  "DDAH1",
+  "EPN2",
+  "NFIX",
+  "PPP2CB",
+  "SEMA3F",
+  "SERBP1",
+  "SPTBN1",
+  "ACAA2",
+  "ADM2",
+  "AGTRAP",
+  "ANKS1A",
+  "ARHGAP21",
+  "ATP9A"
+ ],
+ "consensus_down_list": [
+  "ABT1",
+  "AP4E1",
+  "APEX1",
+  "ARPP19",
+  "BLOC1S2",
+  "CCDC115",
+  "CD47",
+  "CHST2",
+  "CUL2",
+  "CYB5B",
+  "DAP3",
+  "DHX38",
+  "E2F4",
+  "EIF2B1",
+  "FAF2"
+ ],
+ "panel": [
+  {
+   "gene": "POSTN",
+   "mean_logFC": 0.61,
+   "n_present": 22,
+   "n_up": 3,
+   "n_down": 0
+  },
+  {
+   "gene": "CLC",
+   "mean_logFC": 0.91,
+   "n_present": 20,
+   "n_up": 2,
+   "n_down": 0
+  },
+  {
+   "gene": "CCL26",
+   "mean_logFC": 0.6,
+   "n_present": 20,
+   "n_up": 2,
+   "n_down": 0
+  },
+  {
+   "gene": "CST1",
+   "mean_logFC": 1.56,
+   "n_present": 23,
+   "n_up": 3,
+   "n_down": 1
+  },
+  {
+   "gene": "CST2",
+   "mean_logFC": 0.88,
+   "n_present": 20,
+   "n_up": 1,
+   "n_down": 0
+  },
+  {
+   "gene": "SERPINB2",
+   "mean_logFC": 0.11,
+   "n_present": 24,
+   "n_up": 2,
+   "n_down": 2
+  },
+  {
+   "gene": "IL13",
+   "mean_logFC": 0.14,
+   "n_present": 19,
+   "n_up": 2,
+   "n_down": 0
+  },
+  {
+   "gene": "IL4",
+   "mean_logFC": 0.24,
+   "n_present": 19,
+   "n_up": 0,
+   "n_down": 0
+  },
+  {
+   "gene": "IL5",
+   "mean_logFC": 0.12,
+   "n_present": 19,
+   "n_up": 2,
+   "n_down": 0
+  },
+  {
+   "gene": "IL33",
+   "mean_logFC": -0.17,
+   "n_present": 23,
+   "n_up": 0,
+   "n_down": 0
+  },
+  {
+   "gene": "TSLP",
+   "mean_logFC": 0.17,
+   "n_present": 21,
+   "n_up": 0,
+   "n_down": 0
+  },
+  {
+   "gene": "MUC5AC",
+   "mean_logFC": 0.22,
+   "n_present": 16,
+   "n_up": 3,
+   "n_down": 0
+  },
+  {
+   "gene": "TPSAB1",
+   "mean_logFC": 0.63,
+   "n_present": 20,
+   "n_up": 2,
+   "n_down": 0
+  },
+  {
+   "gene": "CPA3",
+   "mean_logFC": 0.63,
+   "n_present": 22,
+   "n_up": 1,
+   "n_down": 0
+  },
+  {
+   "gene": "ALOX15",
+   "mean_logFC": 0.18,
+   "n_present": 24,
+   "n_up": 2,
+   "n_down": 0
+  }
+ ],
+ "sc_datasets": {
+  "GSE261706": {
+   "cells": 53838,
+   "types": [
+    "B_cell",
+    "CD4_T",
+    "CD8_T",
+    "Cycling",
+    "Endothelial",
+    "Epi_basal",
+    "Epi_ciliated",
+    "Epi_goblet",
+    "Epi_ionocyte",
+    "Epi_secretory",
+    "Epi_tuft",
+    "Erythroid",
+    "Fibroblast",
+    "ILC",
+    "Mast_basophil",
+    "Mono_classical",
+    "Mono_nonclassical",
+    "NK",
+    "Plasma",
+    "Platelet",
+    "SMC_pericyte",
+    "Th2",
+    "Treg",
+    "cDC",
+    "pDC"
+   ],
+   "pseudobulk_units": 99
+  },
+  "GSE200107": {
+   "cells": 128969,
+   "types": [
+    "B_cell",
+    "CD4_T",
+    "CD8_T",
+    "Erythroid",
+    "ILC",
+    "Mast_basophil",
+    "Mono_classical",
+    "Mono_nonclassical",
+    "NK",
+    "Plasma",
+    "Platelet",
+    "Th2",
+    "Treg",
+    "cDC",
+    "pDC"
+   ],
+   "pseudobulk_units": 94
+  },
+  "GSE180697": {
+   "cells": 30722,
+   "types": [
+    "B_cell",
+    "CD4_T",
+    "CD8_T",
+    "Erythroid",
+    "ILC",
+    "Mast_basophil",
+    "Mono_classical",
+    "Mono_nonclassical",
+    "NK",
+    "Plasma",
+    "Platelet",
+    "Th2",
+    "Treg",
+    "cDC",
+    "pDC"
+   ],
+   "pseudobulk_units": 95
+  },
+  "GSE162933": {
+   "cells": 37208,
+   "types": [
+    "B_cell",
+    "CD4_T",
+    "CD8_T",
+    "Erythroid",
+    "ILC",
+    "Mast_basophil",
+    "Mono_classical",
+    "Mono_nonclassical",
+    "NK",
+    "Plasma",
+    "Th2",
+    "Treg",
+    "pDC"
+   ],
+   "pseudobulk_units": null
+  },
+  "GSE163367": {
+   "cells": 21332,
+   "types": [
+    "B_cell",
+    "CD4_T",
+    "CD8_T",
+    "Erythroid",
+    "ILC",
+    "Mast_basophil",
+    "Mono_classical",
+    "Mono_nonclassical",
+    "NK",
+    "Plasma",
+    "Platelet",
+    "Th2",
+    "Treg",
+    "cDC",
+    "pDC"
+   ],
+   "pseudobulk_units": null
+  },
+  "GSE273975": {
+   "cells": 20476,
+   "types": [
+    "B_cell",
+    "CD4_T",
+    "CD8_T",
+    "Erythroid",
+    "ILC",
+    "Mast_basophil",
+    "Mono_classical",
+    "Mono_nonclassical",
+    "NK",
+    "Plasma",
+    "Platelet",
+    "Th2",
+    "Treg",
+    "cDC",
+    "pDC"
+   ],
+   "pseudobulk_units": 30
+  }
+ },
+ "sc_total_cells": 292545
+}
