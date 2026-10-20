@@ -7,7 +7,7 @@
 <h2 id="h_hall"></h2><p class="mut" id="hall_note"></p><div style="overflow-x:auto"><table id="hall"></table></div>
 <h2 id="h_meta"></h2><p class="mut" id="meta_note"></p><div style="overflow-x:auto"><table id="metat"></table></div>
 <h2 id="h_gwas"></h2><p class="mut" id="gwas_note"></p><div style="overflow-x:auto"><table id="gwast"></table></div>
-<h2 id="h_wgcna"></h2><div id="wgcna"></div>
+<h2 id="h_wgcna"></h2><p class="mut" id="wgcna_note"></p><div id="wgcna"></div>
 <h2 id="h_xd"></h2><div id="xd"></div>
 </main><footer><span data-i18n="foot"></span></footer>
 <script src="app.js"></script><script>
@@ -23,11 +23,12 @@ const L={
  h_gwas:{en:"GWAS support (GWAS Catalog v2, mapped genes)",zh:"GWAS 支持（GWAS Catalog v2，mapped 基因）"},
  gwas_note:{en:"AR: 357 associations / 273 genes; asthma: 3,236 / 1,306. CST1, POSTN, CLC, CCL26 have no GWAS support — transcript strength dissociates from genetic support.",zh:"AR：357 个关联 / 273 个基因；哮喘：3,236 / 1,306。CST1、POSTN、CLC、CCL26 无 GWAS 支持——转录强度与遗传支持分离。"},
  h_wgcna:{en:"WGCNA (GSE167225 sputum, n=26)",zh:"WGCNA（GSE167225 痰，n=26）"},
+ wgcna_note:{en:"Neither module was associated with AR status (turquoise r = −0.25, p = 0.22; blue r = −0.04, p = 0.85). Read this as a null result: at n = 26 the analysis can only exclude strong module–trait effects. Module preservation was not run, because no second cohort matrix was fully downloadable.",zh:"两个模块均未发现与 AR 状态相关（turquoise r = −0.25，p = 0.22；blue r = −0.04，p = 0.85）。应按零结果理解：n = 26 时该分析只能排除强模块–性状效应。因无第二个队列可下载完整矩阵，未做模块保存性分析。"},
  h_xd:{en:"AR vs CRSwNP",zh:"AR 对 CRSwNP"}};
 function T(k){return L[k][LANG]||L[k].en}
 function fdrFmt2(f){ if(f==null) return "—"; if(f<0.001) return f.toExponential(1); return f.toFixed(3); }
 async function render(){
- ["t","intro","h_prog","prog_note","h_hall","hall_note","h_meta","meta_note","h_gwas","gwas_note","h_wgcna","h_xd"].forEach(id=>document.getElementById(id).textContent=T(id));
+ ["t","intro","h_prog","prog_note","h_hall","hall_note","h_meta","meta_note","h_gwas","gwas_note","h_wgcna","wgcna_note","h_xd"].forEach(id=>document.getElementById(id).textContent=T(id));
  const E = await loadJSON("data/expansion.json");
  const pt = E.programs_tissue.filter(r=>["nasal","blood"].includes(r.tissue_simple));
  const progs=[...new Set(pt.map(r=>r.program))];
@@ -42,7 +43,7 @@ async function render(){
   E.gwas_panel.map(r=>`<tr><td><a href="gene.html?g=${r.gene}">${r.gene}</a></td><td>${r.allergic_rhinitis_gwas_hit?"✓":""}</td><td>${r.asthma_gwas_hit?"✓":""}</td></tr>`).join("");
  document.getElementById("wgcna").innerHTML = "<table><tr><th>Module</th><th>Size</th><th>Cor w/ AR</th><th>p</th><th>FDR</th></tr>"+
   E.wgcna.modules.map(r=>`<tr><td>${r.module}</td><td>${r.size}</td><td>${r.cor_trait}</td><td>${r.p_trait.toExponential(1)}</td><td>${fdrFmt2(r.FDR)}</td></tr>`).join("")+
-  `</table><p class="mut">${E.wgcna.note}</p>`;
+  `</table>`;
  const x=E.crossdisease;
  document.getElementById("xd").innerHTML = `<p>Spearman ρ of mean logFC (AR vs CRS) over ${x.common_genes.toLocaleString()} genes: <b>${x.spearman_rho}</b>. Consensus overlap at chance — up: ${x.up_overlap}/${x.ar_up} vs ${x.crs_up} (p=${x.up_overlap_p}); down: ${x.dn_overlap}/${x.ar_dn} vs ${x.crs_dn} (p=${x.dn_overlap_p}). Panel genes move concordantly in both diseases.</p>`;
 }
