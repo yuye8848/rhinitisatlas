@@ -9,6 +9,7 @@
 <h2 id="h_gwas"></h2><p class="mut" id="gwas_note"></p><div style="overflow-x:auto"><table id="gwast"></table></div>
 <h2 id="h_wgcna"></h2><p class="mut" id="wgcna_note"></p><div id="wgcna"></div>
 <h2 id="h_xd"></h2><div id="xd"></div>
+<h2 id="h_inf"></h2><p class="mut" id="inf_note"></p><div style="overflow-x:auto"><table id="inft"></table></div><div id="inf2"></div>
 </main><footer><span data-i18n="foot"></span></footer>
 <script src="app.js?v=20261021b"></script><script>
 const L={
@@ -24,11 +25,13 @@ const L={
  gwas_note:{en:"AR: 357 associations / 273 genes; asthma: 3,236 / 1,306. CST1, POSTN, CLC, CCL26 have no GWAS support — transcript strength dissociates from genetic support.",zh:"AR：357 个关联 / 273 个基因；哮喘：3,236 / 1,306。CST1、POSTN、CLC、CCL26 无 GWAS 支持——转录强度与遗传支持分离。"},
  h_wgcna:{en:"WGCNA (GSE167225 sputum, n=26)",zh:"WGCNA（GSE167225 痰，n=26）"},
  wgcna_note:{en:"Neither module was associated with AR status (turquoise r = −0.25, p = 0.22; blue r = −0.04, p = 0.85). Read this as a null result: at n = 26 the analysis can only exclude strong module–trait effects. Module preservation was not run, because no second cohort matrix was fully downloadable.",zh:"两个模块均未发现与 AR 状态相关（turquoise r = −0.25，p = 0.22；blue r = −0.04，p = 0.85）。应按零结果理解：n = 26 时该分析只能排除强模块–性状效应。因无第二个队列可下载完整矩阵，未做模块保存性分析。"},
- h_xd:{en:"AR vs CRSwNP",zh:"AR 对 CRSwNP"}};
+ h_xd:{en:"AR vs CRSwNP",zh:"AR 对 CRSwNP"},
+ h_inf:{en:"Per-sample deconvolution (Step 9: MCP-counter + xCell)",zh:"逐样本去卷积（Step 9：MCP-counter + xCell）"},
+ inf_note:{en:"Per-sample scores (not the contrast-level estimates above) for 16 disease contrasts, pooled by DerSimonian–Laird random effects within tissue strata (Hedges g; GSE46171 platforms averaged). Positive-control gate passed: xCell eosinophil scores track CLC expression (median ρ = 0.42, positive in 18/19 contrasts) and mast-cell scores track TPSAB1/CPA3 (median ρ = 0.29, 14/19). Scores are relative enrichment measures, not cell fractions.",zh:"逐样本分数（非上方对比级估计），16 个疾病对比，按组织分层以 DerSimonian–Laird 随机效应合并（Hedges g；GSE46171 双平台先平均）。阳性对照门通过：xCell 嗜酸分数追踪 CLC 表达（中位 ρ = 0.42，19 个对比中 18 个为正），肥大分数追踪 TPSAB1/CPA3（中位 ρ = 0.29，14/19）。分数为相对富集量，不是细胞比例。"}};
 function T(k){return L[k][LANG]||L[k].en}
 function fdrFmt2(f){ if(f==null) return "—"; if(f<0.001) return f.toExponential(1); return f.toFixed(3); }
 async function render(){
- ["t","intro","h_prog","prog_note","h_hall","hall_note","h_meta","meta_note","h_gwas","gwas_note","h_wgcna","wgcna_note","h_xd"].forEach(id=>document.getElementById(id).textContent=T(id));
+ ["t","intro","h_prog","prog_note","h_hall","hall_note","h_meta","meta_note","h_gwas","gwas_note","h_wgcna","wgcna_note","h_xd","h_inf","inf_note"].forEach(id=>document.getElementById(id).textContent=T(id));
  const E = await loadJSON("data/expansion.json");
  const pt = E.programs_tissue.filter(r=>["nasal","blood"].includes(r.tissue_simple));
  const progs=[...new Set(pt.map(r=>r.program))];
@@ -46,6 +49,14 @@ async function render(){
   `</table>`;
  const x=E.crossdisease;
  document.getElementById("xd").innerHTML = `<p>Spearman ρ of mean logFC (AR vs CRS) over ${x.common_genes.toLocaleString()} genes: <b>${x.spearman_rho}</b>. Consensus overlap at chance — up: ${x.up_overlap}/${x.ar_up} vs ${x.crs_up} (p=${x.up_overlap_p}); down: ${x.dn_overlap}/${x.ar_dn} vs ${x.crs_dn} (p=${x.dn_overlap_p}). Panel genes move concordantly in both diseases.</p>`;
+ const I = await loadJSON("data/infiltration.json");
+ const gf = v => (v>0?"+":"")+v.toFixed(2);
+ document.getElementById("inft").innerHTML = "<tr><th>Method</th><th>Population</th><th>Nasal g</th><th>Nasal FDR</th><th>Nasal I²</th><th>Blood g</th><th>Blood FDR</th></tr>"+
+  I.meta.map(r=>`<tr><td>${r.method}</td><td>${r.population}</td><td>${r.nasal?gf(r.nasal.g):"—"}</td><td>${r.nasal?fdrFmt2(r.nasal.fdr):"—"}</td><td>${r.nasal?r.nasal.i2:"—"}</td><td>${r.blood?gf(r.blood.g):"—"}</td><td>${r.blood?fdrFmt2(r.blood.fdr):"—"}</td></tr>`).join("");
+ const cmpLine = I.cmp_cohorts.map(r=>`${r.cohort} ${gf(r.g)}`).join(", ");
+ document.getElementById("inf2").innerHTML = LANG==="zh"
+  ? `<p>唯一 FDR 显著项：xCell CMP 鼻层合并 g = +1.03（FDR = 0.0019，I² = 0），逐队列全为正（${cmpLine}）。其 18 基因签名以粒细胞颗粒/肥大相关基因（CPA3、MS4A2、AZU1、ELANE、MPO、EPX、PRG2 等）为主体，应读作粒细胞/肥大轴协同位移而非祖细胞浸润；MCP-counter 无对应类别，未独立互证。肥大细胞分数鼻层 +0.72（P = 0.084，I² = 63）不显著，嗜酸为零结果；AIT 配对队列中肥大/嗜酸分数治疗后均无显著变化。逐样本分数与全部统计见下载页（deconv_* 文件）。</p>`
+  : `<p>The only FDR-significant result is the xCell CMP score in the nasal stratum (pooled g = +1.03, FDR = 0.0019, I² = 0), positive in every cohort (${cmpLine}). Its 18-gene signature is dominated by granulocyte-granule and mast-associated genes (CPA3, MS4A2, AZU1, ELANE, MPO, EPX, PRG2), so it reads as a coordinated granulocyte/mast-axis shift, not progenitor infiltration; MCP-counter has no counterpart category and does not independently confirm it. Mast-cell scores trend positive but are not significant (nasal +0.72, P = 0.084, I² = 63) and eosinophil scores are null; in the paired immunotherapy cohort neither score changed significantly after treatment. Full per-sample scores and statistics are on the Downloads page (deconv_* files).</p>`;
 }
 window.onLang=render; render();
 </script></body></html>

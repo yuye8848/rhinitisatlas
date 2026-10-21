@@ -1,0 +1,39 @@
+file,check,rho
+GSE118243_GSE118243__AIT_T9_vs_T0,xCell Mast cells vs TPSAB1/CPA3 expr,-0.321871006010227
+GSE118243_GSE118243__AIT_T9_vs_T0,xCell Eosinophils vs CLC expr,0.67032967032967
+GSE118243_GSE118243__ARbaseline_vs_HC,xCell Mast cells vs TPSAB1/CPA3 expr,-0.0769230769230769
+GSE118243_GSE118243__ARbaseline_vs_HC,xCell Eosinophils vs CLC expr,0.774667096724399
+GSE123086_GSE123086__SAR_vs_HC,xCell Mast cells vs TPSAB1/CPA3 expr,0.42589411335435
+GSE123086_GSE123086__SAR_vs_HC,xCell Eosinophils vs CLC expr,0.768778280542986
+GSE167225_GSE167225__AR_vs_HC,xCell Mast cells vs TPSAB1/CPA3 expr,0.125215145035664
+GSE167225_GSE167225__AR_vs_HC,xCell Eosinophils vs CLC expr,0.510329326323293
+GSE19187_GSE19187__Rhinitis_vs_HC,xCell Mast cells vs TPSAB1/CPA3 expr,0.292871449229326
+GSE19187_GSE19187__Rhinitis_vs_HC,xCell Eosinophils vs CLC expr,0.233846153846154
+GSE37146_GSE37146__AllergicTwin_vs_HealthyTwin,xCell Mast cells vs TPSAB1/CPA3 expr,0.106191377121905
+GSE37146_GSE37146__AllergicTwin_vs_HealthyTwin,xCell Eosinophils vs CLC expr,0.732354601919819
+GSE37155_GSE37155__AllergicTwin_vs_HealthyTwin,xCell Mast cells vs TPSAB1/CPA3 expr,0.5
+GSE37155_GSE37155__AllergicTwin_vs_HealthyTwin,xCell Eosinophils vs CLC expr,0.190476190476191
+GSE37157_GSE37157__UntreatedAR_vs_Nonallergic,xCell Mast cells vs TPSAB1/CPA3 expr,0.0281697126081599
+GSE37157_GSE37157__UntreatedAR_vs_Nonallergic,xCell Eosinophils vs CLC expr,0.493871160178534
+GSE43497_GSE43497__ChallengeH24_vs_Base_CD4,xCell Mast cells vs TPSAB1/CPA3 expr,0.532326708642033
+GSE43497_GSE43497__ChallengeH24_vs_Base_CD4,xCell Eosinophils vs CLC expr,0.94
+GSE43523_GSE43523__SAR_vs_HC,xCell Mast cells vs TPSAB1/CPA3 expr,0.753065953463722
+GSE43523_GSE43523__SAR_vs_HC,xCell Eosinophils vs CLC expr,0.888111888111888
+GSE44037_GSE44037__NasalRhinitis_vs_HC,xCell Mast cells vs TPSAB1/CPA3 expr,-0.363636363636364
+GSE44037_GSE44037__NasalRhinitis_vs_HC,xCell Eosinophils vs CLC expr,0.110096376512636
+GSE44960_GSE44960__SAR_vs_HC_diluent,xCell Mast cells vs TPSAB1/CPA3 expr,0.312781954887218
+GSE44960_GSE44960__SAR_vs_HC_diluent,xCell Eosinophils vs CLC expr,0.379518502683987
+GSE46171_GSE46171-GPL16981__AR_vs_HC_allvisits,xCell Mast cells vs TPSAB1/CPA3 expr,-0.127754543608099
+GSE46171_GSE46171-GPL16981__AR_vs_HC_allvisits,xCell Eosinophils vs CLC expr,-0.180868306917189
+GSE46171_GSE46171-GPL6480__AR_vs_HC_allvisits,xCell Mast cells vs TPSAB1/CPA3 expr,0.433333333333333
+GSE46171_GSE46171-GPL6480__AR_vs_HC_allvisits,xCell Eosinophils vs CLC expr,0.288176989038844
+GSE49782_GSE49782-GPL17555__ChallengePost_vs_Base,xCell Mast cells vs TPSAB1/CPA3 expr,0.6
+GSE49782_GSE49782-GPL17555__ChallengePost_vs_Base,xCell Eosinophils vs CLC expr,0.0425533880576045
+GSE49782_GSE49782-GPL17556__ChallengePost_vs_Base,xCell Mast cells vs TPSAB1/CPA3 expr,0.260606060606061
+GSE49782_GSE49782-GPL17556__ChallengePost_vs_Base,xCell Eosinophils vs CLC expr,0.419454825139245
+GSE50101_GSE50101__Patient_vs_HC,xCell Mast cells vs TPSAB1/CPA3 expr,0.563588902049093
+GSE50101_GSE50101__Patient_vs_HC,xCell Eosinophils vs CLC expr,0.652621226097451
+GSE50223_GSE50223__Patient_vs_HC_diluent,xCell Mast cells vs TPSAB1/CPA3 expr,0.379296399508669
+GSE50223_GSE50223__Patient_vs_HC_diluent,xCell Eosinophils vs CLC expr,0.422835379788745
+GSE51392_GSE51392__NasalRhinitis_vs_HC_unstim,xCell Mast cells vs TPSAB1/CPA3 expr,-0.28441563932431
+GSE51392_GSE51392__NasalRhinitis_vs_HC_unstim,xCell Eosinophils vs CLC expr,0.183493960854393
