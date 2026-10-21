@@ -13,6 +13,9 @@ p,li{font-size:14.5px;line-height:1.65;color:#26303d}.mut{color:var(--mut);font-
 .box{background:#fff8f0;border:1px solid #ecd9c3;border-radius:10px;padding:12px 16px;margin:14px 0}
 table{border-collapse:collapse;width:100%;background:#fff;font-size:13px}th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}th{background:#eef3f6}
 input,select{font-size:14px;padding:7px 9px;border:1px solid #b9c4d0;border-radius:7px}
+textarea{font-size:13.5px;padding:9px;border:1px solid #b9c4d0;border-radius:7px;width:100%;font-family:ui-monospace,Menlo,Consolas,monospace}
+.badge{display:inline-block;border-radius:4px;padding:0 6px;font-size:11.5px;font-weight:700;margin-right:3px}
+.b-arup{background:#fde8d7;color:#8a3c10}.b-ardn{background:#dbe7fb;color:#1c4390}.b-crsup{background:#e3f2e3;color:#1e6b1e}.b-crsdn{background:#efe0f2;color:#6b1e6b}
 button.go{background:var(--acc);color:#fff;border:0;border-radius:7px;padding:8px 16px;font-size:14px;cursor:pointer}
 .chip{display:inline-block;background:#e6f2f2;color:#0b5252;border-radius:20px;padding:2px 10px;margin:2px;font-size:12.5px}
 .chip.dn{background:#fbe9dd;color:#8a3c10}

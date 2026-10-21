@@ -1,0 +1,158 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RhinitisAtlas</title><link rel="stylesheet" href="style.css"></head><body>
+<header><div class="brand">RhinitisAtlas<small data-i18n="tagline"></small></div>
+<nav><a href="index.html" data-i18n="nav_overview" class=""></a><a href="datasets.html" data-i18n="nav_datasets" class=""></a><a href="gene.html" data-i18n="nav_gene" class=""></a><a href="scrna.html" data-i18n="nav_sc" class=""></a><a href="treatments.html" data-i18n="nav_treat" class=""></a><a href="spatial.html" data-i18n="nav_spatial" class=""></a><a href="pathways.html" data-i18n="nav_path" class=""></a><a href="analyze.html" data-i18n="nav_analyze" class="on"></a><a href="methods.html" data-i18n="nav_methods" class=""></a><a href="downloads.html" data-i18n="nav_dl" class=""></a></nav><div class="lang"><button data-l="en" onclick="setLang('en')">EN</button><button data-l="zh" onclick="setLang('zh')">中文</button></div></header><main>
+<h1 id="t"></h1><p id="intro"></p>
+<div class="grid2">
+<div><h3 id="h_up"></h3><textarea id="up" rows="9" spellcheck="false"></textarea></div>
+<div><h3 id="h_dn"></h3><textarea id="dn" rows="9" spellcheck="false"></textarea></div>
+</div>
+<div style="margin:12px 0;display:flex;gap:8px;flex-wrap:wrap">
+<button class="go" id="run"></button>
+<button class="go" id="ex" style="background:#7d93a8"></button>
+<button class="go" id="clr" style="background:#7d93a8"></button>
+<span class="mut" id="status"></span></div>
+<div id="out"></div>
+<div class="box"><p id="note" style="margin:0"></p></div>
+</main><footer><span data-i18n="foot"></span></footer>
+<script src="app.js"></script><script>
+const L={
+ t:{en:"Check your gene list against both atlases",zh:"拿你的基因列表对照两个图谱"},
+ intro:{en:"Paste a differential-expression gene list (gene symbols or Ensembl IDs, one per line or separated by spaces/commas). Everything is computed in your browser from the precomputed atlas data — your list never leaves this page. You get: overlap enrichment against the AR consensus sets and the CRSwNP (PolypAtlas) consensus sets, direction concordance, a cross-disease read, and a per-gene evidence table.",zh:"粘贴你的差异表达基因列表（基因符号或 Ensembl ID，一行一个，或以空格/逗号分隔）。全部计算在你的浏览器内用图谱预计算数据完成——列表不离开本页。输出：与 AR 共识集、CRSwNP（PolypAtlas）共识集的重叠富集、方向一致性、跨病判读，以及逐基因证据表。"},
+ h_up:{en:"Up-regulated in my data",zh:"在我的数据中上调"}, h_dn:{en:"Down-regulated in my data",zh:"在我的数据中下调"},
+ run:{en:"Run check",zh:"开始对照"}, ex:{en:"Load example (type-2 panel)",zh:"载入示例（2 型面板）"}, clr:{en:"Clear",zh:"清空"},
+ loading:{en:"loading atlas data (2.3 MB)…",zh:"正在加载图谱数据（2.3 MB）…"}, ready:{en:"atlas data loaded",zh:"图谱数据已加载"},
+ note:{en:"How to read this: consensus sets use one fixed rule in both atlases — FDR<0.05 in ≥3 contrasts, zero opposite-direction significant contrasts, gene present in ≥5 contrasts (AR all-tissue: 852 up / 414 down of 24,198 genes; AR nasal-only, 14 contrasts: 831 up / 390 down of 20,971; CRSwNP: 1,165 up / 282 down of 18,883). Blood-only sets are not offered: under the same rule the 10 blood contrasts yield essentially no consensus (1 up / 1 down) — the AR signal is mucosal. Enrichment is a one-sided hypergeometric test against the respective atlas universe. Overlap statistics are descriptive research aids, not diagnostics; a strong overlap means your list resembles the public-cohort consensus, nothing more.",zh:"如何解读：两个图谱的共识集用同一条固定规则——在 ≥3 个对比中 FDR<0.05、无反向显著对比、基因出现于 ≥5 个对比（AR 全组织：24,198 个基因中上调 852 / 下调 414；AR 仅鼻，14 个对比：20,971 中上调 831 / 下调 390；CRSwNP：18,883 中上调 1,165 / 下调 282）。不提供仅血共识集：同一规则下 10 个血液对比几乎产不出共识（上调 1 / 下调 1）——AR 信号在黏膜不在血。富集为对相应图谱宇宙的单侧超几何检验。重叠统计是描述性研究辅助，不是诊断工具；重叠强只说明你的列表与公共队列共识相似，仅此而已。"},
+ matched:{en:"matched",zh:"已匹配"}, unmatched:{en:"unmatched",zh:"未匹配"}, ensmapped:{en:"Ensembl-mapped",zh:"经 Ensembl 映射"},
+ h_enrich:{en:"Overlap enrichment",zh:"重叠富集"}, h_conc:{en:"Direction concordance",zh:"方向一致性"}, h_genes:{en:"Per-gene evidence",zh:"逐基因证据"},
+ th_set:{en:"Reference set",zh:"参考集"}, th_k:{en:"Overlap",zh:"重叠"}, th_fold:{en:"Fold",zh:"倍数"}, th_p:{en:"P (hypergeometric)",zh:"P（超几何）"},
+ set_ar_up:{en:"AR consensus up",zh:"AR 共识上调"}, set_ar_dn:{en:"AR consensus down",zh:"AR 共识下调"},
+ set_nasal_up:{en:"AR nasal-only consensus up",zh:"AR 仅鼻共识上调"}, set_nasal_dn:{en:"AR nasal-only consensus down",zh:"AR 仅鼻共识下调"},
+ v_conc:{en:"But direction concordance is high: your genes move the same way as the AR program gene-by-gene even though they are not members of the strict consensus sets — the usual pattern for tissue-restricted marker lists, which single-cohort noise keeps out of the strict sets.",zh:"但方向一致性很高：你的基因逐个与 AR 程序同向，只是未进入严格共识集——这正是组织限制性标志物列表的典型情形，单队列噪声会把它们挡在严格集之外。"},
+ set_crs_up:{en:"CRSwNP consensus up",zh:"CRSwNP 共识上调"}, set_crs_dn:{en:"CRSwNP consensus down",zh:"CRSwNP 共识下调"},
+ your_up:{en:"your up list",zh:"你的上调列表"}, your_dn:{en:"your down list",zh:"你的下调列表"},
+ conc_up:{en:"of your up genes with AR data, share with positive AR mean logFC",zh:"你的上调基因中（有 AR 数据者）AR 平均 logFC 为正的比例"},
+ conc_dn:{en:"of your down genes with AR data, share with negative AR mean logFC",zh:"你的下调基因中（有 AR 数据者）AR 平均 logFC 为负的比例"},
+ verdict:{en:"Cross-disease read",zh:"跨病判读"},
+ v_shared:{en:"Shared signal: your list overlaps the consensus of BOTH diseases",zh:"共享信号：你的列表与两个疾病的共识集都重叠"},
+ v_ar:{en:"AR-leaning: significant consensus overlap with allergic rhinitis only",zh:"偏向 AR：只与过敏性鼻炎共识集显著重叠"},
+ v_crs:{en:"CRSwNP-leaning: significant consensus overlap with CRSwNP only",zh:"偏向 CRSwNP：只与 CRSwNP 共识集显著重叠"},
+ v_none:{en:"No significant overlap with either consensus set",zh:"与两个共识集均无显著重叠"},
+ v_stronger:{en:"stronger overlap in",zh:"重叠更强的是"},
+ th_gene:{en:"Gene",zh:"基因"}, th_yours:{en:"Yours",zh:"你的方向"}, th_armean:{en:"AR mean logFC",zh:"AR 平均 logFC"},
+ th_nasal:{en:"Nasal",zh:"鼻"}, th_blood:{en:"Blood",zh:"血"}, th_sig:{en:"Sig ↑/↓ (of present)",zh:"显著 ↑/↓（出现数）"},
+ th_meta:{en:"Nasal meta (FDR)",zh:"鼻 meta（FDR）"}, th_crs:{en:"CRS mean logFC",zh:"CRS 平均 logFC"}, th_class:{en:"Consensus class",zh:"共识归类"},
+ dl:{en:"Download table (CSV)",zh:"下载表格（CSV）"}, empty:{en:"Paste at least one gene list first.",zh:"请先粘贴至少一个基因列表。"},
+ both:{en:"both lists",zh:"两表皆有"}};
+function T(k){return L[k][LANG]||L[k].en}
+let ATLAS=null, ROWS=[], SORTK="absar", SORTD=-1;
+const LG=[0.99999999999980993,676.5203681218851,-1259.1392167224028,771.32342877765313,-176.61502916214059,12.507343278686905,-0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
+function lgamma(z){ if(z<0.5) return Math.log(Math.PI/Math.sin(Math.PI*z))-lgamma(1-z); z-=1; let x=LG[0]; for(let i=1;i<9;i++) x+=LG[i]/(z+i); const t=z+7.5; return 0.5*Math.log(2*Math.PI)+(z+0.5)*Math.log(t)-t+Math.log(x); }
+function logC(n,k){ return (k<0||k>n)?-Infinity:lgamma(n+1)-lgamma(k+1)-lgamma(n-k+1); }
+function hyperP(N,K,n,k){ if(k<=0) return 1; const mx=Math.min(K,n); let s=0; for(let i=k;i<=mx;i++) s+=Math.exp(logC(K,i)+logC(N-K,n-i)-logC(N,n)); return Math.min(1,s); }
+function pFmt(p){ if(p<0.001) return p.toExponential(1); return p.toFixed(3); }
+function parseList(txt){
+ const seen=new Set(), matched=[], ensgN={n:0}; let unmatched=0;
+ txt.split(/[\s,;]+/).map(x=>x.replace(/^["']|["']$/g,"").trim().toUpperCase()).filter(Boolean).forEach(tok=>{
+   let sym=tok;
+   if(/^ENSG\d+/.test(tok)){ const base=tok.split(".")[0]; if(ATLAS.ensg[base]){ sym=ATLAS.ensg[base]; ensgN.n++; } }
+   if(seen.has(sym)) return; seen.add(sym);
+   if(ATLAS.genes[sym]) matched.push(sym); else unmatched++;
+ });
+ return {matched, unmatched, ensMapped:ensgN.n};
+}
+function setMembers(flag){ return Object.keys(ATLAS.genes).filter(g=>ATLAS.genes[g][9]&flag); }
+let SETS=null;
+function ensureSets(){ if(!SETS) SETS={arup:setMembers(1), ardn:setMembers(2), crsup:setMembers(4), crsdn:setMembers(8),
+  nup:setMembers(32), ndn:setMembers(64),
+  arupS:new Set(), ardnS:new Set(), crsupS:new Set(), crsdnS:new Set(), nupS:new Set(), ndnS:new Set()};
+ ["arup","ardn","crsup","crsdn","nup","ndn"].forEach(k=>{ if(!SETS[k+"S"].size) SETS[k].forEach(g=>SETS[k+"S"].add(g)); }); }
+function enrichRow(listName, list, setS, setN, N, label){
+ const inter=list.filter(g=>setS.has(g)).length;
+ const n=list.length, p=hyperP(N, setN, n, inter);
+ const fold=n&&setN? ((inter/n)/(setN/N)) : 0;
+ return {row:`<tr><td>${listName} ∩ ${label}</td><td>${inter} / ${n} (set ${setN} / ${N.toLocaleString()})</td><td>${fold.toFixed(2)}×</td><td>${pFmt(p)}</td></tr>`, inter, p};
+}
+function badges(f){ let b=""; if(f&1)b+='<span class="badge b-arup">AR↑</span>'; if(f&2)b+='<span class="badge b-ardn">AR↓</span>';
+ if(f&4)b+='<span class="badge b-crsup">CRS↑</span>'; if(f&8)b+='<span class="badge b-crsdn">CRS↓</span>'; return b||"—"; }
+function run(){
+ if(!ATLAS){ document.getElementById("status").textContent=T("loading"); return; }
+ ensureSets();
+ const upP=parseList(document.getElementById("up").value), dnP=parseList(document.getElementById("dn").value);
+ if(!upP.matched.length && !dnP.matched.length){ document.getElementById("out").innerHTML="<p>"+T("empty")+"</p>"; return; }
+ const M=ATLAS.meta, out=[];
+ const tot=(upP.matched.length+dnP.matched.length), unm=upP.unmatched+dnP.unmatched, em=upP.ensMapped+dnP.ensMapped;
+ out.push(`<p class="mut">${tot} ${T("matched")} · ${unm} ${T("unmatched")}${em?` · ${em} ${T("ensMapped")}`:""}</p>`);
+ const tests=[];
+ const inCRS=g=>(ATLAS.genes[g][9]&16)!==0, inNas=g=>(ATLAS.genes[g][9]&128)!==0;
+ const upCRS=upP.matched.filter(inCRS), dnCRS=dnP.matched.filter(inCRS);
+ const upNas=upP.matched.filter(inNas), dnNas=dnP.matched.filter(inNas);
+ if(upP.matched.length){
+   tests.push({dir:"up", atlas:"ar", ...enrichRow(T("your_up"), upP.matched, SETS.arupS, M.ar_up, M.ar_universe, T("set_ar_up"))});
+   tests.push({dir:"up", atlas:"ar", ...enrichRow(T("your_up"), upNas, SETS.nupS, M.nasal_up, M.nasal_universe, T("set_nasal_up"))});
+   tests.push({dir:"up", atlas:"crs", ...enrichRow(T("your_up"), upCRS, SETS.crsupS, M.crs_up, M.crs_universe, T("set_crs_up"))});
+   tests.push({dir:"up", atlas:"arx", ...enrichRow(T("your_up"), upP.matched, SETS.ardnS, M.ar_dn, M.ar_universe, T("set_ar_dn"))});
+   tests.push({dir:"up", atlas:"crsx", ...enrichRow(T("your_up"), upCRS, SETS.crsdnS, M.crs_dn, M.crs_universe, T("set_crs_dn"))});
+ }
+ if(dnP.matched.length){
+   tests.push({dir:"dn", atlas:"ar", ...enrichRow(T("your_dn"), dnP.matched, SETS.ardnS, M.ar_dn, M.ar_universe, T("set_ar_dn"))});
+   tests.push({dir:"dn", atlas:"ar", ...enrichRow(T("your_dn"), dnNas, SETS.ndnS, M.nasal_dn, M.nasal_universe, T("set_nasal_dn"))});
+   tests.push({dir:"dn", atlas:"crs", ...enrichRow(T("your_dn"), dnCRS, SETS.crsdnS, M.crs_dn, M.crs_universe, T("set_crs_dn"))});
+   tests.push({dir:"dn", atlas:"arx", ...enrichRow(T("your_dn"), dnP.matched, SETS.arupS, M.ar_up, M.ar_universe, T("set_ar_up"))});
+   tests.push({dir:"dn", atlas:"crsx", ...enrichRow(T("your_dn"), dnCRS, SETS.crsupS, M.crs_up, M.crs_universe, T("set_crs_up"))});
+ }
+ out.push(`<h2>${T("h_enrich")}</h2><table><tr><th>${T("th_set")}</th><th>${T("th_k")}</th><th>${T("th_fold")}</th><th>${T("th_p")}</th></tr>`+tests.map(x=>x.row).join("")+"</table>");
+ // concordance first (verdict may fall back to it)
+ const conc=[]; let concHit=0, concTot=0;
+ if(upP.matched.length){ const a=upP.matched.map(g=>ATLAS.genes[g][0]); const h=a.filter(x=>x>0).length;
+   concHit+=h; concTot+=a.length; conc.push(`${(100*h/a.length).toFixed(0)}% ${T("conc_up")}`); }
+ if(dnP.matched.length){ const a=dnP.matched.map(g=>ATLAS.genes[g][0]); const h=a.filter(x=>x<0).length;
+   concHit+=h; concTot+=a.length; conc.push(`${(100*h/a.length).toFixed(0)}% ${T("conc_dn")}`); }
+ // verdict from same-direction tests only
+ const same=tests.filter(x=>(x.dir==="up"&&(x.atlas==="ar"||x.atlas==="crs"))||(x.dir==="dn"&&(x.atlas==="ar"||x.atlas==="crs")));
+ const arS=same.filter(x=>x.atlas==="ar"), crsS=same.filter(x=>x.atlas==="crs");
+ const arSig=arS.some(x=>x.p<0.05), crsSig=crsS.some(x=>x.p<0.05);
+ let v = (!arSig&&!crsSig)? T("v_none") : (arSig&&crsSig)? T("v_shared") : arSig? T("v_ar") : T("v_crs");
+ if(arSig&&crsSig){ const bestA=Math.min(...arS.map(x=>x.p)), bestC=Math.min(...crsS.map(x=>x.p));
+   v += ` (${T("v_stronger")}: ${bestA<bestC?"AR":"CRSwNP"})`; }
+ if(!arSig&&!crsSig&&concTot&&concHit/concTot>=0.8) v += " " + T("v_conc");
+ out.push(`<div class="box"><b>${T("verdict")}:</b> ${v}</div>`);
+ out.push(`<h2>${T("h_conc")}</h2><p>${conc.join("<br>")}</p>`);
+ // per-gene rows
+ const dirOf={}; upP.matched.forEach(g=>dirOf[g]="↑"); dnP.matched.forEach(g=>dirOf[g]=dirOf[g]?"↕":"↓");
+ ROWS=[...new Set([...upP.matched, ...dnP.matched])].map(g=>{ const r=ATLAS.genes[g];
+   return {g, dir:dirOf[g], ar:r[0], nasal:r[1], blood:r[2], sup:r[3], sdn:r[4], pres:r[5], meta:r[6], fdr:r[7], crs:r[8], f:r[9], absar:Math.abs(r[0]||0)}; });
+ out.push(`<h2>${T("h_genes")} (${ROWS.length})</h2><div style="overflow-x:auto"><table id="gt"></table></div>
+ <p><button class="go" id="dlcsv">${T("dl")}</button></p>`);
+ document.getElementById("out").innerHTML=out.join("");
+ drawTable();
+ document.getElementById("dlcsv").addEventListener("click", dlCSV);
+}
+function drawTable(){
+ const rows=[...ROWS].sort((a,b)=>{ const k=SORTK; const va=a[k], vb=b[k];
+   return (typeof va==="string"? va.localeCompare(vb) : (va??-1e9)-(vb??-1e9))*SORTD; });
+ const th=(k,lb)=>`<th style="cursor:pointer" onclick="sortBy('${k}')">${lb}</th>`;
+ document.getElementById("gt").innerHTML = "<tr>"+th("g",T("th_gene"))+th("dir",T("th_yours"))+th("ar",T("th_armean"))+th("nasal",T("th_nasal"))+th("blood",T("th_blood"))+th("sup",T("th_sig"))+th("meta",T("th_meta"))+th("crs",T("th_crs"))+th("f",T("th_class"))+"</tr>"+
+ rows.map(r=>`<tr><td><a href="gene.html?g=${r.g}">${r.g}</a></td><td>${r.dir}</td><td>${r.ar>0?"+":""}${r.ar}</td><td>${r.nasal==null?"—":(r.nasal>0?"+":"")+r.nasal}</td><td>${r.blood==null?"—":(r.blood>0?"+":"")+r.blood}</td><td>${r.sup} / ${r.sdn} (of ${r.pres})</td><td>${r.meta==null?"—":(r.meta>0?"+":"")+r.meta+" ("+pFmt(r.fdr)+")"}</td><td>${r.crs==null?"—":(r.crs>0?"+":"")+r.crs}</td><td>${badges(r.f)}</td></tr>`).join("");
+}
+function sortBy(k){ if(SORTK===k) SORTD*=-1; else { SORTK=k; SORTD=-1; } drawTable(); }
+function dlCSV(){
+ const head="gene,yours,AR_mean_logFC,nasal_mean,blood_mean,n_sig_up,n_sig_down,n_present,nasal_meta_logFC,nasal_meta_FDR,CRS_mean_logFC,flags\n";
+ const body=ROWS.map(r=>[r.g,r.dir,r.ar,r.nasal??"",r.blood??"",r.sup,r.sdn,r.pres,r.meta??"",r.fdr??"",r.crs??"",r.f].join(",")).join("\n");
+ const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([head+body],{type:"text/csv"})); a.download="rhinitisatlas_list_check.csv"; a.click();
+}
+function renderStatic(){
+ ["t","intro","h_up","h_dn","note"].forEach(id=>document.getElementById(id).textContent=T(id));
+ document.getElementById("run").textContent=T("run"); document.getElementById("ex").textContent=T("ex"); document.getElementById("clr").textContent=T("clr");
+ document.getElementById("up").placeholder="POSTN\nCLC\nCCL26\n…";
+ document.getElementById("dn").placeholder="IL33\n…";
+}
+document.getElementById("run").addEventListener("click", run);
+document.getElementById("ex").addEventListener("click", ()=>{
+ document.getElementById("up").value="POSTN\nCLC\nCCL26\nCST1\nCST2\nSERPINB2\nIL13\nIL4\nIL5\nTSLP\nMUC5AC\nTPSAB1\nCPA3\nALOX15";
+ document.getElementById("dn").value="IL33"; run(); });
+document.getElementById("clr").addEventListener("click", ()=>{ document.getElementById("up").value=""; document.getElementById("dn").value=""; document.getElementById("out").innerHTML=""; });
+window.onLang=()=>{ renderStatic(); if(ATLAS && (document.getElementById("up").value||document.getElementById("dn").value)) run(); };
+renderStatic();
+loadJSON("data/gene_atlas.json").then(d=>{ ATLAS=d; document.getElementById("status").textContent=T("ready"); });
+</script></body></html>

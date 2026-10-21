@@ -3,6 +3,7 @@ const STR = {
  tagline:{en:"A unified public-transcriptome resource for allergic rhinitis",zh:"过敏性鼻炎公共转录组统一资源"},
  nav_overview:{en:"Overview",zh:"总览"},nav_datasets:{en:"Datasets",zh:"数据集"},nav_gene:{en:"Gene query",zh:"基因查询"},
  nav_sc:{en:"Single-cell",zh:"单细胞"},nav_treat:{en:"Treatments & challenge",zh:"治疗与激发"},nav_spatial:{en:"Spatial",zh:"空间层"},
+ nav_analyze:{en:"List check",zh:"列表对照"},
  nav_path:{en:"Pathways & programs",zh:"通路与程序"},
  nav_methods:{en:"Methods",zh:"方法"},nav_dl:{en:"Downloads",zh:"下载"},
  foot:{en:"RhinitisAtlas — precomputed static resource. Every number on this site traces to a result file in the project archive. Data cutoff: 1 October 2026.",zh:"RhinitisAtlas —— 预计算静态资源。本站每个数字均可溯源至项目归档中的结果文件。数据截止：2026 年 10 月 1 日。"},
