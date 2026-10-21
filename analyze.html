@@ -37,7 +37,7 @@ const L={
  v_shared:{en:"Shared signal: your list overlaps the consensus of BOTH diseases",zh:"共享信号：你的列表与两个疾病的共识集都重叠"},
  v_ar:{en:"AR-leaning: significant consensus overlap with allergic rhinitis only",zh:"偏向 AR：只与过敏性鼻炎共识集显著重叠"},
  v_crs:{en:"CRSwNP-leaning: significant consensus overlap with CRSwNP only",zh:"偏向 CRSwNP：只与 CRSwNP 共识集显著重叠"},
- v_none:{en:"No significant overlap with either consensus set",zh:"与两个共识集均无显著重叠"},
+ v_none:{en:"No significant overlap with either consensus set.",zh:"与两个共识集均无显著重叠。"},
  v_stronger:{en:"stronger overlap in",zh:"重叠更强的是"},
  th_gene:{en:"Gene",zh:"基因"}, th_yours:{en:"Yours",zh:"你的方向"}, th_armean:{en:"AR mean logFC",zh:"AR 平均 logFC"},
  th_nasal:{en:"Nasal",zh:"鼻"}, th_blood:{en:"Blood",zh:"血"}, th_sig:{en:"Sig ↑/↓ (of present)",zh:"显著 ↑/↓（出现数）"},
@@ -152,7 +152,8 @@ document.getElementById("ex").addEventListener("click", ()=>{
  document.getElementById("up").value="POSTN\nCLC\nCCL26\nCST1\nCST2\nSERPINB2\nIL13\nIL4\nIL5\nTSLP\nMUC5AC\nTPSAB1\nCPA3\nALOX15";
  document.getElementById("dn").value="IL33"; run(); });
 document.getElementById("clr").addEventListener("click", ()=>{ document.getElementById("up").value=""; document.getElementById("dn").value=""; document.getElementById("out").innerHTML=""; });
-window.onLang=()=>{ renderStatic(); if(ATLAS && (document.getElementById("up").value||document.getElementById("dn").value)) run(); };
+window.onLang=()=>{ renderStatic(); if(ATLAS) document.getElementById("status").textContent=T("ready");
+ if(ATLAS && (document.getElementById("up").value||document.getElementById("dn").value)) run(); };
 renderStatic();
 loadJSON("data/gene_atlas.json").then(d=>{ ATLAS=d; document.getElementById("status").textContent=T("ready"); });
 </script></body></html>
