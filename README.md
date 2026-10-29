@@ -31,10 +31,6 @@ If you use RhinitisAtlas in your work, please cite:
 
 > RhinitisAtlas: a unified public-transcriptome resource for allergic rhinitis. https://rhinitis.erbihou.org/ — archived data: Zenodo, DOI 10.5281/zenodo.23463138.
 
-## Sister resource
-
-[PolypAtlas](https://polyp.erbihou.org/) — the companion resource for chronic rhinosinusitis with nasal polyps (CRSwNP), built with the same curation and analysis framework; the RhinitisAtlas gene-list check tests lists against both diseases' consensus sets.
-
 ## Repository layout
 
 - This repository is the static website itself, served via GitHub Pages at the address above.
