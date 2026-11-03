@@ -20,7 +20,7 @@ const L={
  h_hall:{en:"Hallmark pathway consensus (GSEA)",zh:"Hallmark 通路共识（GSEA）"},
  hall_note:{en:"Terms significant (FDR<0.05) in the most contrasts. Direction splits show these pathways are perturbed but not uniformly up/down across cohorts.",zh:"在最多对比中显著（FDR<0.05）的条目。方向拆分显示这些通路被扰动，但在队列间并非一致上/下调。"},
  h_meta:{en:"Nasal random-effects meta-analysis — top genes",zh:"鼻随机效应 meta 分析—— top 基因"},
- meta_note:{en:"12 nasal contrasts, DerSimonian–Laird. IL33 pools at −0.03 (P=0.69, I²=9.7): a consistent null, not cancelling signals.",zh:"12 个鼻对比，DerSimonian–Laird。IL33 合并 −0.03（P=0.69，I²=9.7）：一致的零结果，而非信号抵消。"},
+ meta_note:{en:"15 nasal contrasts, DerSimonian–Laird; standard errors from the per-cohort model fits. IL33 pools at −0.07 (P=0.34, I²=42): a null.",zh:"15 个鼻对比，DerSimonian–Laird；标准误取自逐队列模型拟合。IL33 合并 −0.07（P=0.34，I²=42）：零结果。"},
  h_gwas:{en:"GWAS support (GWAS Catalog v2, mapped genes)",zh:"GWAS 支持（GWAS Catalog v2，mapped 基因）"},
  gwas_note:{en:"AR: 357 associations / 273 genes; asthma: 3,236 / 1,306. CST1, POSTN, CLC, CCL26 have no GWAS support — transcript strength dissociates from genetic support.",zh:"AR：357 个关联 / 273 个基因；哮喘：3,236 / 1,306。CST1、POSTN、CLC、CCL26 无 GWAS 支持——转录强度与遗传支持分离。"},
  h_wgcna:{en:"WGCNA (GSE167225 sputum, n=26)",zh:"WGCNA（GSE167225 痰，n=26）"},
@@ -55,8 +55,8 @@ async function render(){
   I.meta.map(r=>`<tr><td>${r.method}</td><td>${r.population}</td><td>${r.nasal?gf(r.nasal.g):"—"}</td><td>${r.nasal?fdrFmt2(r.nasal.fdr):"—"}</td><td>${r.nasal?r.nasal.i2:"—"}</td><td>${r.blood?gf(r.blood.g):"—"}</td><td>${r.blood?fdrFmt2(r.blood.fdr):"—"}</td></tr>`).join("");
  const cmpLine = I.cmp_cohorts.map(r=>`${r.cohort} ${gf(r.g)}`).join(", ");
  document.getElementById("inf2").innerHTML = LANG==="zh"
-  ? `<p>唯一 FDR 显著项：xCell CMP 鼻层合并 g = +1.03（FDR = 0.0019，I² = 0），逐队列全为正（${cmpLine}）。其 18 基因签名以粒细胞颗粒/肥大相关基因（CPA3、MS4A2、AZU1、ELANE、MPO、EPX、PRG2 等）为主体，应读作粒细胞/肥大轴协同位移而非祖细胞浸润；MCP-counter 无对应类别，未独立互证。肥大细胞分数鼻层 +0.72（P = 0.084，I² = 63）不显著，嗜酸为零结果；AIT 配对队列中肥大/嗜酸分数治疗后均无显著变化。逐样本分数与全部统计见下载页（deconv_* 文件）。</p>`
-  : `<p>The only FDR-significant result is the xCell CMP score in the nasal stratum (pooled g = +1.03, FDR = 0.0019, I² = 0), positive in every cohort (${cmpLine}). Its 18-gene signature is dominated by granulocyte-granule and mast-associated genes (CPA3, MS4A2, AZU1, ELANE, MPO, EPX, PRG2), so it reads as a coordinated granulocyte/mast-axis shift, not progenitor infiltration; MCP-counter has no counterpart category and does not independently confirm it. Mast-cell scores trend positive but are not significant (nasal +0.72, P = 0.084, I² = 63) and eosinophil scores are null; in the paired immunotherapy cohort neither score changed significantly after treatment. Full per-sample scores and statistics are on the Downloads page (deconv_* files).</p>`;
+  ? `<p>唯一 FDR 显著项：xCell CMP 鼻层合并 g = +0.93（FDR = 0.0022，I² = 0），逐队列全为正（${cmpLine}）。其 18 基因签名以粒细胞颗粒/肥大相关基因（CPA3、MS4A2、AZU1、ELANE、MPO、EPX、PRG2 等）为主体，应读作粒细胞/肥大轴协同位移而非祖细胞浸润；MCP-counter 无对应类别，未独立互证。肥大细胞分数鼻层 +0.59（P = 0.081，I² = 55）不显著，嗜酸为零结果；AIT 配对队列中肥大/嗜酸分数治疗后均无显著变化。逐样本分数与全部统计见下载页（deconv_* 文件）。</p>`
+  : `<p>The only FDR-significant result is the xCell CMP score in the nasal stratum (pooled g = +0.93, FDR = 0.0022, I² = 0), positive in every cohort (${cmpLine}). Its 18-gene signature is dominated by granulocyte-granule and mast-associated genes (CPA3, MS4A2, AZU1, ELANE, MPO, EPX, PRG2), so it reads as a coordinated granulocyte/mast-axis shift, not progenitor infiltration; MCP-counter has no counterpart category and does not independently confirm it. Mast-cell scores trend positive but are not significant (nasal +0.59, P = 0.081, I² = 55) and eosinophil scores are null; in the paired immunotherapy cohort neither score changed significantly after treatment. Full per-sample scores and statistics are on the Downloads page (deconv_* files).</p>`;
 }
 window.onLang=render; render();
 </script></body></html>
